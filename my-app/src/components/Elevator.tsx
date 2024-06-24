@@ -2,13 +2,19 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { floors } from "../model/floorsData";
 import { ElevatorType } from "../model/types";
+import { ActionType } from "../reducers/elevatorReducer";
 
 interface ElevatorProps {
   elevatorData: ElevatorType;
-  setElevatorData: (data: ElevatorType) => void;
+  elevatorDispatch: React.Dispatch<ActionType>;
+  elevatorNum: number;
 }
 
-function Elevator({ elevatorData, setElevatorData }: ElevatorProps) {
+function Elevator({
+  elevatorData,
+  elevatorDispatch,
+  elevatorNum,
+}: ElevatorProps) {
   const [currentFloor, setCurrentFloor] = useState<number>(1);
   const { destinationFloor, moving } = elevatorData;
 
@@ -20,7 +26,7 @@ function Elevator({ elevatorData, setElevatorData }: ElevatorProps) {
         } else if (prevFloor > destinationFloor) {
           return prevFloor - 1;
         } else {
-          setElevatorData({ ...elevatorData, moving: false });
+          elevatorDispatch({ type: "stopMoving", index: elevatorNum });
           clearInterval(interval);
           return prevFloor;
         }

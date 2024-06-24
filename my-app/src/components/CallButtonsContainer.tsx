@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { floors } from "../model/floorsData";
 import { ElevatorType } from "../model/types";
+import { ActionType } from "../reducers/elevatorReducer";
 
 interface CallButtonsContainerProps {
-  setFirstElevator: (data: ElevatorType) => void;
+  elevatorDispatch: React.Dispatch<ActionType>;
 }
 
-function CallButtonsContainer({ setFirstElevator }: CallButtonsContainerProps) {
+function CallButtonsContainer({ elevatorDispatch }: CallButtonsContainerProps) {
   return (
     <CallArea>
       <div>호출</div>
@@ -16,7 +17,11 @@ function CallButtonsContainer({ setFirstElevator }: CallButtonsContainerProps) {
             <CallButton
               key={`callBtn-${num}`}
               onClick={() => {
-                setFirstElevator({ destinationFloor: num, moving: true });
+                elevatorDispatch({
+                  type: "setDestination",
+                  index: 2,
+                  destinationFloor: num,
+                });
               }}
             >
               {num}
