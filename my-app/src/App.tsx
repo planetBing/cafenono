@@ -8,14 +8,17 @@ import { elevatorReducer } from "./reducers/elevatorReducer";
 
 const initialElevatorData: ElevatorType[] = [
   {
+    id: 1,
     destinationFloor: 1,
     moving: false,
   },
   {
+    id: 2,
     destinationFloor: 1,
     moving: false,
   },
   {
+    id: 3,
     destinationFloor: 1,
     moving: false,
   },
@@ -29,15 +32,18 @@ function App() {
 
   return (
     <div className="App">
-      <CallButtonsContainer elevatorDispatch={dispatch} />
+      <CallButtonsContainer
+        elevatorState={elevatorState}
+        elevatorDispatch={dispatch}
+      />
       <Wrapper>
-        {elevatorState.map((elevatorObj, index) => {
+        {elevatorState.map((elevatorObj) => {
           return (
             <Elevator
-              key={`elevator-${index}`}
+              key={`elevator-${elevatorObj.id}`}
               elevatorData={elevatorObj}
               elevatorDispatch={dispatch}
-              elevatorNum={index}
+              elevatorNum={elevatorObj.id}
             />
           );
         })}

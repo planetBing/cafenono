@@ -1,13 +1,42 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { floors } from "../model/floorsData";
 import { ElevatorType } from "../model/types";
 import { ActionType } from "../reducers/elevatorReducer";
+import {
+  filterNotMovingElevator,
+  findLeastFloorDiffElevator,
+} from "../utils/utils";
 
 interface CallButtonsContainerProps {
   elevatorDispatch: React.Dispatch<ActionType>;
+  elevatorState: ElevatorType[];
 }
 
-function CallButtonsContainer({ elevatorDispatch }: CallButtonsContainerProps) {
+function CallButtonsContainer({
+  elevatorDispatch,
+  elevatorState,
+}: CallButtonsContainerProps) {
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+
+  useEffect(() => {
+    const avaliableElevators = filterNotMovingElevator(elevatorState);
+    setIsDisabled(avaliableElevators.length === 0);
+  }, [elevatorState]);
+
+  const callBtnClickHandler = (num: number) => {
+    const avaliableElevators = filterNotMovingElevator(elevatorState);
+    const elevatorIdToMove = findLeastFloorDiffElevator(
+      avaliableElevators,
+      num
+    ).id;
+    elevatorDispatch({
+      type: "setDestination",
+      id: elevatorIdToMove,
+      destinationFloor: num,
+    });
+  };
+
   return (
     <CallArea>
       <div>호출</div>
@@ -17,12 +46,9 @@ function CallButtonsContainer({ elevatorDispatch }: CallButtonsContainerProps) {
             <CallButton
               key={`callBtn-${num}`}
               onClick={() => {
-                elevatorDispatch({
-                  type: "setDestination",
-                  index: 2,
-                  destinationFloor: num,
-                });
+                callBtnClickHandler(num);
               }}
+              disabled={isDisabled}
             >
               {num}
             </CallButton>
@@ -43,11 +69,12 @@ const CallButtonsArea = styled.div`
   gap: 8px;
 `;
 
-const CallButton = styled.div`
+const CallButton = styled.div<{ disabled: boolean }>`
   border: 1px solid gray;
   width: 20px;
   border-radius: 50%;
-  cursor: pointer;
+  background-color: ${({ disabled }) => (disabled ? "grey" : "white")};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 `;
 
 export default CallButtonsContainer;

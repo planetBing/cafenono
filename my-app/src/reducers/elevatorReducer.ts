@@ -1,15 +1,15 @@
 import { ElevatorType } from "../model/types";
 
 export type ActionType =
-  | { type: "setDestination"; index: number; destinationFloor: number }
-  | { type: "stopMoving"; index: number };
+  | { type: "setDestination"; id: number; destinationFloor: number }
+  | { type: "stopMoving"; id: number };
 
 export function elevatorReducer(state: ElevatorType[], action: ActionType) {
   switch (action.type) {
     case "setDestination":
-      return [...state].map((eachElevator, i) => {
-        const { destinationFloor, index } = action;
-        return i === index
+      return [...state].map((eachElevator) => {
+        const { destinationFloor, id } = action;
+        return eachElevator.id === id
           ? {
               ...eachElevator,
               destinationFloor: destinationFloor,
@@ -18,9 +18,9 @@ export function elevatorReducer(state: ElevatorType[], action: ActionType) {
           : { ...eachElevator };
       });
     case "stopMoving":
-      return [...state].map((eachElevator, i) => {
-        const { index } = action;
-        return i === index
+      return [...state].map((eachElevator) => {
+        const { id } = action;
+        return eachElevator.id === id
           ? { ...eachElevator, moving: false }
           : { ...eachElevator };
       });

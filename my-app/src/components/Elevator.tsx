@@ -26,7 +26,7 @@ function Elevator({
         } else if (prevFloor > destinationFloor) {
           return prevFloor - 1;
         } else {
-          elevatorDispatch({ type: "stopMoving", index: elevatorNum });
+          elevatorDispatch({ type: "stopMoving", id: elevatorNum });
           clearInterval(interval);
           return prevFloor;
         }
