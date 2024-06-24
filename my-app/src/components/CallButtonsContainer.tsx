@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import { floors } from "../model/floorsData";
+import { ElevatorType } from "../model/types";
 
-function CallButtonsContainer() {
+interface CallButtonsContainerProps {
+  setFirstElevator: (data: ElevatorType) => void;
+}
+
+function CallButtonsContainer({ setFirstElevator }: CallButtonsContainerProps) {
   return (
     <CallArea>
       <div>호출</div>
@@ -11,7 +16,7 @@ function CallButtonsContainer() {
             <CallButton
               key={`callBtn-${num}`}
               onClick={() => {
-                console.log(num);
+                setFirstElevator({ destinationFloor: num, moving: true });
               }}
             >
               {num}
@@ -37,6 +42,7 @@ const CallButton = styled.div`
   border: 1px solid gray;
   width: 20px;
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 export default CallButtonsContainer;
