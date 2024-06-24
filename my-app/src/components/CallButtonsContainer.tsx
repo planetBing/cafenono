@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styled from "styled-components";
+import * as S from "../styles/CallButtonsContainer";
 import { floors } from "../model/floorsData";
 import { ElevatorType } from "../model/types";
 import { ActionType } from "../reducers/elevatorReducer";
@@ -38,12 +38,12 @@ function CallButtonsContainer({
   };
 
   return (
-    <CallArea>
+    <S.CallArea>
       <div>호출</div>
-      <CallButtonsArea>
+      <S.CallButtonsArea>
         {floors.map((num: number) => {
           return (
-            <CallButton
+            <S.CallButton
               key={`callBtn-${num}`}
               onClick={() => {
                 callBtnClickHandler(num);
@@ -51,30 +51,12 @@ function CallButtonsContainer({
               disabled={isDisabled}
             >
               {num}
-            </CallButton>
+            </S.CallButton>
           );
         })}
-      </CallButtonsArea>
-    </CallArea>
+      </S.CallButtonsArea>
+    </S.CallArea>
   );
 }
-
-const CallArea = styled.div`
-  display: flex;
-  margin: 50px;
-  gap: 15px;
-`;
-const CallButtonsArea = styled.div`
-  display: flex;
-  gap: 8px;
-`;
-
-const CallButton = styled.div<{ disabled: boolean }>`
-  border: 1px solid gray;
-  width: 20px;
-  border-radius: 50%;
-  background-color: ${({ disabled }) => (disabled ? "grey" : "white")};
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-`;
 
 export default CallButtonsContainer;

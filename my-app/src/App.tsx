@@ -1,28 +1,9 @@
-import "./App.css";
 import { useReducer } from "react";
-import styled from "styled-components";
+import * as S from "./styles/App";
 import CallButtonsContainer from "./components/CallButtonsContainer";
 import Elevator from "./components/Elevator";
-import { ElevatorType } from "./model/types";
+import { initialElevatorData } from "./model/initialElevatorData";
 import { elevatorReducer } from "./reducers/elevatorReducer";
-
-const initialElevatorData: ElevatorType[] = [
-  {
-    id: 1,
-    destinationFloor: 1,
-    moving: false,
-  },
-  {
-    id: 2,
-    destinationFloor: 1,
-    moving: false,
-  },
-  {
-    id: 3,
-    destinationFloor: 1,
-    moving: false,
-  },
-];
 
 function App() {
   const [elevatorState, dispatch] = useReducer(
@@ -31,12 +12,12 @@ function App() {
   );
 
   return (
-    <div className="App">
+    <S.Wrapper>
       <CallButtonsContainer
         elevatorState={elevatorState}
         elevatorDispatch={dispatch}
       />
-      <Wrapper>
+      <S.ElevatorWrapper>
         {elevatorState.map((elevatorObj) => {
           return (
             <Elevator
@@ -47,13 +28,9 @@ function App() {
             />
           );
         })}
-      </Wrapper>
-    </div>
+      </S.ElevatorWrapper>
+    </S.Wrapper>
   );
 }
-
-const Wrapper = styled.div`
-  display: flex;
-`;
 
 export default App;

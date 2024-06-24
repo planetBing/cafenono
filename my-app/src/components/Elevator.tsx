@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styled from "styled-components";
+import * as S from "../styles/Elevator";
 import { floors } from "../model/floorsData";
 import { ElevatorType } from "../model/types";
 import { ActionType } from "../reducers/elevatorReducer";
@@ -36,40 +36,20 @@ function Elevator({
   }, [destinationFloor]);
 
   return (
-    <Wrapper>
+    <S.Wrapper>
       {floors.map((floor) => {
         return (
-          <Floor
+          <S.Floor
             key={`elevatorFloor-${floor}`}
             opacity={currentFloor === floor ? 1 : 0}
             moving={moving.toString()}
           >
             {floor}
-          </Floor>
+          </S.Floor>
         );
       })}
-    </Wrapper>
+    </S.Wrapper>
   );
 }
-
-const Wrapper = styled.div`
-  width: 50px;
-  height: 600px;
-  border: 1px solid black;
-  margin: 50px;
-  display: flex;
-  flex-direction: column-reverse;
-`;
-
-const Floor = styled.div<{ opacity: number; moving: string }>`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: ${({ moving }) =>
-    moving === "true" ? "1px solid red" : "1px solid black"};
-  color: ${({ moving }) => (moving === "true" ? "red" : "black")};
-  opacity: ${({ opacity }) => opacity};
-`;
 
 export default Elevator;
