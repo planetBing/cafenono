@@ -19,6 +19,10 @@ function Elevator({
   const { destinationFloor, moving } = elevatorData;
 
   useEffect(() => {
+    if (currentFloor === destinationFloor) {
+      elevatorDispatch({ type: "stopMoving", id: elevatorNum });
+      return;
+    }
     const interval = setInterval(() => {
       setCurrentFloor((prevFloor) => {
         if (prevFloor < destinationFloor) {
@@ -33,7 +37,7 @@ function Elevator({
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [destinationFloor]);
+  }, [destinationFloor, moving]);
 
   return (
     <S.Wrapper>
